@@ -17,7 +17,8 @@ imageTag: 5.3.0
 
 ## Specify a imagePullPolicy
 ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
-imagePullPolicy: IfNotPresent
+# imagePullPolicy: IfNotPresent
+imagePullPolicy: Always
 
 ## Specify an array of imagePullSecrets.
 ## Secrets must be manually created in the namespace.
@@ -27,7 +28,8 @@ imagePullSecrets:
 ## StatefulSet Config
 ## Start and stop pods in Parallel or OrderedReady (one-by-one.)
 ## ref: https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/#pod-management-policy
-podManagementPolicy: OrderedReady
+podManagementPolicy: Parallel
+# podManagementPolicy: OrderedReady
 
 ## The StatefulSet Update Strategy which Kafka will use when changes are applied: OnDelete or RollingUpdate
 ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
@@ -90,6 +92,9 @@ resources: {}
   # requests:
   #  cpu: 100m
   #  memory: 128Mi
+  requests:
+    cpu: "0.5"
+    memory: "1Gi"
 
 ## Custom pod annotations
 podAnnotations: {}
@@ -144,3 +149,11 @@ cp-zookeeper:
 
   ## If the Zookeeper Chart is disabled a URL and port are required to connect
   url: ""
+
+ZK_ADDR: 
+  description: "zookeeper address"
+  label: "ZK_ADDR"
+  required: true
+  default: "zk-service.zookeeper:2181"
+  type: "string"
+  group: "Zookeeper Settings"
